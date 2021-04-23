@@ -1,5 +1,7 @@
 package;
 
+import kha.input.Mouse;
+import kha.input.Keyboard;
 import kha.Assets;
 import kha.Framebuffer;
 import kha.Scheduler;
@@ -22,6 +24,9 @@ class Main {
 	}
 	function init() {
 		simulation = new Simulation();
+		Mouse.get().notify(function(b,x,y){
+			simulation.initialise();
+		},null,null);
 
 	}
 	function update() {

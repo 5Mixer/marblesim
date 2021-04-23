@@ -26,9 +26,28 @@ class Simulation {
         initialise();
     }
  
-    function initialise() {
+    public function initialise() {
         var w = 6000;
         var h = 900;
+
+        circles = [];
+        tiles = [];
+        space.clear();
+
+        var level = kha.Assets.blobs.level.toString();
+        var y = 0;
+        var gridSize = 20;
+        for (line in level.split("\n")) {
+            var x=0;
+            for (char in line.split("")) {
+                if (char == '#') {
+                    tiles.push(new Tile(x*20,y*20,space));
+                }
+
+                x++;
+            }
+            y++;
+        }
  
         // Create the floor for the simulation.
         //   We use a STATIC type object, and give it a single
@@ -43,37 +62,8 @@ class Simulation {
         floor.shapes.add(new Polygon(Polygon.rect(50, (h - 50), (w - 100), 1)));
         floor.space = space;
  
-        // Create a tower of boxes.
-        //   We use a DYNAMIC type object, and give it a single
-        //   Polygon with vertices defined by Polygon.box utility
-        //   whose arguments are the width and height of box.
-        //
-        //   Polygon.box(w, h) === Polygon.rect((-w / 2), (-h / 2), w, h)
-        //   which means we get a box whose centre is the body origin (0, 0)
-        //   and that when this object rotates about its centre it will
-        //   act as expected.
-        for (i in 0...16) {
-            var box = new Body(BodyType.DYNAMIC);
-            box.shapes.add(new Polygon(Polygon.box(16, 32)));
-            box.position.setxy((w / 2), ((h - 50) - 32 * (i + 0.5)));
-            box.space = space;
-        }
- 
-        // Create the rolling ball.
-        //   We use a DYNAMIC type object, and give it a single
-        //   Circle with radius 50px. Unless specified otherwise
-        //   in the second optional argument, the circle is always
-        //   centered at the origin.
-        //
-        //   we give it an angular velocity so when it touched
-        //   the floor it will begin rolling towards the tower.
-        for (i in 0...500) {
-            circles.push(new Ball(10, Math.random()*900, Math.random()*400, space));
-
-        }
-        for (i in 0...60){
-            tiles.push(new Tile(Math.random()*500, 300+Math.random()*500,space));
-
+        for (i in 0...600) {
+            circles.push(new Ball(10, i%30*20,Math.floor(i/30)*20, space));
         }
     }
 
