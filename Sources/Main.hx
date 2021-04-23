@@ -6,23 +6,38 @@ import kha.Scheduler;
 import kha.System;
 
 class Main {
-	static function update(): Void {
+	var simulation:Simulation;
+	var graphics:Graphics;
+	function new() {
 
-	}
+		graphics = new Graphics();
 
-	static function render(framebuffer: Framebuffer): Void {
-
-	}
-
-	public static function main() {
-		System.start({title: "Kha", width: 800, height: 600}, function (_) {
-			// Just loading everything is ok for small projects
+		System.start({title: "Marble Run", width: 800, height: 600}, function (_) {
 			Assets.loadEverything(function () {
-				// Avoid passing update/render directly,
-				// so replacing them via code injection works
+				init();
 				Scheduler.addTimeTask(function () { update(); }, 0, 1 / 60);
 				System.notifyOnFrames(function (framebuffers) { render(framebuffers[0]); });
 			});
 		});
+	}
+	function init() {
+		simulation = new Simulation();
+
+	}
+	function update() {
+		simulation.update();
+	}
+
+	function render(framebuffer: Framebuffer) {
+		var g = framebuffer.g2;
+		g.begin();
+		graphics.setG2(g);
+		simulation.render(graphics);
+
+		g.end();
+	}
+
+	public static function main() {
+		new Main();
 	}
 }

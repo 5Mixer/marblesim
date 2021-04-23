@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "Kha: HTML5",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "cwd": "${workspaceFolder}/build/debug-html5",
+            "runtimeExecutable": "/home/mixer/.vscode/extensions/kodetech.kha-21.4.0/electron/electron",
+            "runtimeArgs": [
+                "--no-sandbox",
+                "."
+            ],
+            "outFiles": [
+                "${workspaceFolder}/build/debug-html5/*.js"
+            ],
+            "preLaunchTask": "Kha: Build for Debug HTML5",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "krom",
+            "request": "launch",
+            "name": "Kha: Krom",
+            "preLaunchTask": "Kha: Build for Krom",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ],
+    "compounds": []
+}
