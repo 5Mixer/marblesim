@@ -12,7 +12,8 @@ import nape.util.Debug;
 class Simulation {
     var space:Space;
     var debug:Debug;
-    var circles:Array<Body> = [];
+    var circles:Array<Ball> = [];
+    var tiles:Array<Tile> = [];
  
     public function new() {
  
@@ -67,12 +68,12 @@ class Simulation {
         //   we give it an angular velocity so when it touched
         //   the floor it will begin rolling towards the tower.
         for (i in 0...500) {
-            var ball = new Body(BodyType.DYNAMIC);
-            ball.shapes.add(new Circle(10));
-            ball.position.setxy(50+(Math.random()*600), 100+(Math.random()*200));
-            ball.angularVel = 10;
-            ball.space = space;
-            circles.push(ball);
+            circles.push(new Ball(10, Math.random()*900, Math.random()*400, space));
+
+        }
+        for (i in 0...60){
+            tiles.push(new Tile(Math.random()*500, 300+Math.random()*500,space));
+
         }
     }
 
@@ -81,7 +82,10 @@ class Simulation {
     }
     public function render(g:Graphics) {
         for (ball in circles) {
-            g.drawCircle(ball.position.x, ball.position.y, 10);
+            ball.render(g);
+        }
+        for (tile in tiles) {
+            tile.render(g);
         }
         // for (box in boxes){
         //     g.fillRect(box.position.x,box.position.y,box.shapes.)
