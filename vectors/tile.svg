@@ -12,11 +12,11 @@
    viewBox="0 0 50 50"
    version="1.1"
    id="svg923"
-   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
    sodipodi:docname="tile.svg"
    inkscape:export-filename="/home/mixer/projects/marblerun/Assets/tile.png"
    inkscape:export-xdpi="25.4"
-   inkscape:export-ydpi="25.4">
+   inkscape:export-ydpi="25.4"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)">
   <defs
      id="defs917" />
   <sodipodi:namedview
@@ -55,11 +55,13 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="opacity:1;fill:#bbbbbb;fill-opacity:1;stroke-width:2.065;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill;stroke:none"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#00016e;stroke-width:5.14121;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
        id="rect1486"
-       width="50"
-       height="50"
-       x="0"
-       y="-5.5511151e-17" />
+       width="41.833763"
+       height="41.833763"
+       x="4.083118"
+       y="4.083118"
+       rx="11.782581"
+       ry="11.782581" />
   </g>
 </svg>

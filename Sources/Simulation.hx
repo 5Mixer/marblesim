@@ -62,8 +62,8 @@ class Simulation {
         floor.shapes.add(new Polygon(Polygon.rect(50, (h - 50), (w - 100), 1)));
         floor.space = space;
  
-        for (i in 0...600) {
-            circles.push(new Ball(10, i%30*20,Math.floor(i/30)*20, space));
+        for (i in 0...1000) {
+            circles.push(new Ball(10, i%70*20,Math.floor(i/70)*20, space));
         }
     }
 

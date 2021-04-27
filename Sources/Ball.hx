@@ -14,7 +14,8 @@ class Ball {
         this.radius = radius;
         body.shapes.add(new Circle(radius));
         body.position.setxy(x, y);
-        body.angularVel = 10;
+        body.setShapeMaterials(nape.phys.Material.glass());
+        body.angularVel = Math.random()-.5;
         body.space = space;
     }
     public function render(g:Graphics) {
