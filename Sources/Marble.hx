@@ -1,11 +1,13 @@
 package ;
 
+import kha.graphics2.Graphics;
 import nape.phys.Body;
 import nape.phys.BodyType;
 import nape.shape.Circle;
 import nape.space.Space;
+using kha.graphics2.GraphicsExtension;
 
-class Ball {
+class Marble extends Entity {
     var radius = 10;
     var body:Body;
     public function new(radius = 10, x:Float, y:Float, space:Space) {
@@ -15,10 +17,11 @@ class Ball {
         body.shapes.add(new Circle(radius));
         body.position.setxy(x, y);
         body.setShapeMaterials(nape.phys.Material.glass());
-        body.angularVel = Math.random()-.5;
+        body.angularVel = 1;
         body.space = space;
+        super();
     }
-    public function render(g:Graphics) {
-        g.drawCircle(body.position.x, body.position.y, radius);
+    override public function render(g:Graphics) {
+        g.fillCircle(body.position.x, body.position.y, radius);
     }
 }

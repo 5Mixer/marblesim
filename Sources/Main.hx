@@ -1,7 +1,6 @@
 package;
 
 import kha.input.Mouse;
-import kha.input.Keyboard;
 import kha.Assets;
 import kha.Framebuffer;
 import kha.Scheduler;
@@ -9,10 +8,9 @@ import kha.System;
 
 class Main {
 	var simulation:Simulation;
-	var graphics:Graphics;
-	function new() {
+	var ui:ui.Main;
 
-		graphics = new Graphics();
+	function new() {
 
 		System.start({title: "Marble Run", width: 800, height: 600}, function (_) {
 			Assets.loadEverything(function () {
@@ -23,9 +21,14 @@ class Main {
 		});
 	}
 	function init() {
+		haxe.ui.Toolkit.init();
+
+		ui = new ui.Main();
+		haxe.ui.core.Screen.instance.addComponent(ui);
+
 		simulation = new Simulation();
 		Mouse.get().notify(function(b,x,y){
-			simulation.initialise();
+			// simulation.start();
 		},null,null);
 
 	}
@@ -34,11 +37,11 @@ class Main {
 	}
 
 	function render(framebuffer: Framebuffer) {
+
 		var g = framebuffer.g2;
 		g.begin(true,kha.Color.fromValue(0xead2a1));
-		graphics.setG2(g);
-		simulation.render(graphics);
-
+		simulation.render(g);
+		haxe.ui.core.Screen.instance.renderTo(g);
 		g.end();
 	}
 

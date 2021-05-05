@@ -5,7 +5,7 @@
             "request": "launch",
             "type": "pwa-chrome",
             "cwd": "${workspaceFolder}/build/debug-html5",
-            "runtimeExecutable": "/home/mixer/.vscode/extensions/kodetech.kha-21.4.0/electron/electron",
+            "runtimeExecutable": "/home/mixer/.vscode-oss/extensions/kodetech.kha-21.4.0/electron/electron",
             "runtimeArgs": [
                 "--no-sandbox",
                 "."
