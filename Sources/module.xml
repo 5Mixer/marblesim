@@ -1,6 +1,6 @@
 <module>
     <resources>
-        <resource path="./definitions/" prefix="ui" />
+        <resource path="definitions" prefix="ui" />
     </resources>
     
 	<components>
