@@ -1,4 +1,5 @@
 enum TileType {
-    Tile;
-    Slope;
+    Empty;
+    Tile(rotation:TileRotation);
+    Slope(rotation:TileRotation);
 }

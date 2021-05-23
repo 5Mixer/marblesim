@@ -1,5 +1,7 @@
 package;
 
+import kha.input.Keyboard;
+import ui.Toolbox;
 import kha.input.Mouse;
 import kha.Assets;
 import kha.Framebuffer;
@@ -9,7 +11,8 @@ import kha.System;
 class Main {
 	var model:Model;
 	var simulation:Simulation;
-	var ui:ui.Main;
+	var toolbox:Toolbox;
+	var input:Input;
 
 	function new() {
 		System.start({title: "Marble Run", width: 800, height: 600}, function (_) {
@@ -21,25 +24,38 @@ class Main {
 		});
 	}
 	function init() {
-		haxe.ui.Toolkit.init();
 		model = new Model();
-
-		ui = new ui.Main();
-		ui.model = model;
-		haxe.ui.core.Screen.instance.addComponent(ui);
-
-		simulation = new Simulation();
-		model.simulation = simulation;
-
-		Mouse.get().notify(function(b,x,y){
-			// simulation.start();
-
-			if (x < kha.Window.get(0).width-300) {
+		input = new Input();
+		input.onClick = function(x,y){
+			if (toolbox.pointInside(x,y)) {
+				toolbox.onClick(x,y);
+			}else{
 				if (model.activeTile != null) {
 					simulation.placeTile(Math.floor(x/20),Math.floor(y/20),model.activeTile);
 				}
 			}
-		},null,null,null);
+		}
+		input.onMove = function(x,y) {
+			if (input.mouseDown) {
+				if (!toolbox.pointInside(x,y)) {
+					if (model.activeTile != null) {
+						simulation.placeTile(Math.floor(x/20),Math.floor(y/20),model.activeTile);
+					}
+				}
+			}
+		}
+
+		toolbox = new Toolbox();
+		toolbox.model = model;
+
+		simulation = new Simulation();
+		model.simulation = simulation;
+
+		Keyboard.get().notify(function(key){
+			if (key == Space) {
+				simulation.start();
+			}
+		},null);
 
 	}
 	function update() {
@@ -51,7 +67,7 @@ class Main {
 		var g = framebuffer.g2;
 		g.begin(true,kha.Color.fromValue(0xead2a1));
 		simulation.render(g);
-		haxe.ui.core.Screen.instance.renderTo(g);
+		toolbox.render(g);
 		g.end();
 	}
 

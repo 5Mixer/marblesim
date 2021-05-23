@@ -27,8 +27,9 @@ class Simulation {
             }
         }
         switch tile {
-            case Tile: entities.push(new Tile(x,y,space));
-            case Slope: entities.push(new Slope(x,y,space));
+            case Empty: {};
+            case Tile(rotation): entities.push(new Tile(x,y,space,rotation));
+            case Slope(rotation): entities.push(new Slope(x,y,space,rotation));
         }
 
     }

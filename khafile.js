@@ -2,8 +2,6 @@ let debug = true;
 let project = new Project('Marblerun');
 
 project.addSources('Sources');
-project.addLibrary('haxeui-core');
-project.addLibrary('haxeui-kha');
 project.addLibrary('nape');
 project.addAssets('Assets')
 
