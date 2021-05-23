@@ -29,7 +29,7 @@ class Main {
 		simulation = new Simulation();
 		Mouse.get().notify(function(b,x,y){
 			// simulation.start();
-		},null,null);
+		},null,null,null);
 
 	}
 	function update() {

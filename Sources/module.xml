@@ -1,9 +1,0 @@
-<module>
-    <resources>
-        <resource path="definitions" prefix="ui" />
-    </resources>
-    
-	<components>
-        <class package="ui" />
-	</components>
-</module>

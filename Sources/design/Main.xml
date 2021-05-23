@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <box style="padding: 0px; width: 100%; height: 100%;">
-    <style source="css/main.css" />
+    <style>
+    .label, .textfield, .textarea {
+        font-name: "OpenSans_Regular";
+        font-size: 19px;
+    }
+    </style>
 
 	<grid columns="2" width="100%" height="100%">
 
