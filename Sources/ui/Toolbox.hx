@@ -25,7 +25,7 @@ class Toolbox {
 
         var tileSprite = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20));
         var tileButton = new Button(10+30*1, 10, tileSprite, function() {
-            model.setTile(TileType.Tile(UpRight));
+            model.setTile(TileType.Square);
         });
         toolButtons.push(tileButton);
 

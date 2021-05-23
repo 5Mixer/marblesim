@@ -12,11 +12,6 @@ class Simulation {
     public function new() {
         var gravity = Vec2.weak(0, 600);
         space = new Space(gravity);
- 
-        start();
-
-        marble = new Marble(10, 100, 30, space);
-        entities.push(marble);
     }
  
     public function placeTile(x,y,tile:TileType) {
@@ -28,8 +23,8 @@ class Simulation {
         }
         switch tile {
             case Empty: {};
-            case Tile(rotation): entities.push(new Tile(x,y,space,rotation));
-            case Slope(rotation): entities.push(new Slope(x,y,space,rotation));
+            case Square: entities.push(new tile.Square(x,y,space));
+            case Slope(rotation): entities.push(new tile.Slope(x,y,space,rotation));
         }
 
     }

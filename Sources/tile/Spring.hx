@@ -1,3 +1,5 @@
+package tile;
+
 import kha.math.FastMatrix3;
 import nape.geom.Vec2;
 import nape.geom.Vec2List;
@@ -7,7 +9,7 @@ import nape.shape.Polygon;
 import nape.space.Space;
 import kha.graphics2.Graphics;
 
-class Slope extends Entity {
+class Tile extends Entity {
     var body:Body;
     var gridSize = 20;
     var rotation:Float;
