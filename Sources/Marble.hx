@@ -24,4 +24,7 @@ class Marble extends Entity {
     override public function render(g:Graphics) {
         g.fillCircle(body.position.x, body.position.y, radius);
     }
+    override public function remove() {
+        body.space = null;
+    }
 }

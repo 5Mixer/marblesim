@@ -9,7 +9,7 @@ import kha.graphics2.Graphics;
 class Slope extends Entity {
     var body:Body;
     var gridSize = 20;
-    public function new(x:Float, y:Float, space:Space) {
+    public function new(x:Int, y:Int, space:Space) {
         body = new Body(BodyType.STATIC);
 
         var shape = new Vec2List();
@@ -18,11 +18,18 @@ class Slope extends Entity {
         shape.push(Vec2.weak(gridSize, gridSize));
 
         body.shapes.add(new Polygon(shape));
-        body.position.setxy(x, y);
+        body.position.setxy(x*20, y*20);
         body.space = space;
+
+        this.x = x;
+        this.y = y;
+
         super();
     }
     override public function render(g:Graphics) {
-        g.drawScaledImage(kha.Assets.images.slope, body.position.x-10, body.position.y-10, 20, 20);
+        g.drawScaledImage(kha.Assets.images.slope, x*20, y*20, 20, 20);
+    }
+    override public function remove() {
+        body.space = null;
     }
 }

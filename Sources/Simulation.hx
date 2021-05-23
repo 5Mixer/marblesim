@@ -7,34 +7,41 @@ import kha.graphics2.Graphics;
 class Simulation {
     var space:Space;
     var entities:Array<Entity> = [];
+    var marble:Marble;
  
     public function new() {
         var gravity = Vec2.weak(0, 600);
         space = new Space(gravity);
  
         start();
+
+        marble = new Marble(10, 100, 30, space);
+        entities.push(marble);
     }
  
-    public function start() {
-        var level = kha.Assets.blobs.level.toString();
-        var y = 0;
-        var gridSize = 20;
-        for (line in level.split("\n")) {
-            var x=0;
-            for (char in line.split("")) {
-                if (char == '#') {
-                    entities.push(new Tile(x*20,y*20,space));
-                }
-                if (char == '\\') {
-                    entities.push(new Slope(x*20,y*20,space));
-                }
-
-                x++;
+    public function placeTile(x,y,tile:TileType) {
+        for (entity in entities) {
+            if (entity.x == x && entity.y == y) {
+                entity.remove();
+                entities.remove(entity);
             }
-            y++;
+        }
+        switch tile {
+            case Tile: entities.push(new Tile(x,y,space));
+            case Slope: entities.push(new Slope(x,y,space));
         }
 
-        entities.push(new Marble(10, 100, 30, space));
+    }
+    public function start() {
+        stop();
+        marble = new Marble(10, 100, 30, space);
+        entities.push(marble);
+    }
+    public function stop() {
+        if (marble != null)
+            marble.remove();
+        entities.remove(marble);
+        marble = null;
     }
 
     public function update() {
