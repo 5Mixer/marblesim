@@ -7,7 +7,7 @@ import nape.space.Space;
 import kha.graphics2.Graphics;
 
 class Square extends Entity {
-    var body:Body;
+    public var body:Body;
     public function new(x:Int, y:Int, space:Space) {
         body = new Body(BodyType.STATIC);
 

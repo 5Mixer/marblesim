@@ -9,7 +9,7 @@ using kha.graphics2.GraphicsExtension;
 
 class Marble extends Entity {
     var radius = 10;
-    var body:Body;
+    public var body:Body;
     public function new(radius = 10, x:Float, y:Float, space:Space) {
         body = new Body(BodyType.DYNAMIC);
 

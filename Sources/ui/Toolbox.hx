@@ -13,7 +13,7 @@ class Toolbox {
 
     public function new() {
         position = new Vector2i(0, 0);
-        size = new Vector2i(250, 100);
+        size = new Vector2i(450, 60);
         
         slice = new NineSlice(20, kha.Assets.images.nineSlice);
 
@@ -52,6 +52,28 @@ class Toolbox {
             model.setTile(TileType.Slope(UpLeft));
         });
         toolButtons.push(slopeButton3);
+
+
+        var springSprite = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20));
+        var springButton = new Button(10+30*6, 10, springSprite, function() {
+            model.setTile(TileType.Spring(Right));
+        });
+        toolButtons.push(springButton);
+        var springSprite2 = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20), Math.PI/2);
+        var springButton2 = new Button(10+30*7, 10, springSprite2, function() {
+            model.setTile(TileType.Spring(Down));
+        });
+        toolButtons.push(springButton2);
+        var springSprite3 = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20), 2*Math.PI/2);
+        var springButton3 = new Button(10+30*8, 10, springSprite3, function() {
+            model.setTile(TileType.Spring(Left));
+        });
+        toolButtons.push(springButton3);
+        var springSprite4 = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20), 3*Math.PI/2);
+        var springButton4 = new Button(10+30*9, 10, springSprite4, function() {
+            model.setTile(TileType.Spring(Up));
+        });
+        toolButtons.push(springButton4);
     }
     public function pointInside(x:Int,y:Int) {
         return x > position.x && y > position.y && x < position.x + size.x && y < position.y + size.y;
