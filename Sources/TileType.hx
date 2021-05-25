@@ -6,4 +6,5 @@ enum TileType {
     OuterSlope(rotation:TileRotation);
     Slope(rotation:TileRotation);
     Spring(rotation:SpringDirection);
+    Accelerator(rotation:SpringDirection);
 }

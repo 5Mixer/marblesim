@@ -15,16 +15,17 @@ class Simulation {
 
     public var marbleType:CbType;
     public var springType:CbType;
+    public var acceleratorType:CbType;
  
-    var collisions:InteractionListener;
     public function new() {
         var gravity = Vec2.weak(0, 600);
         space = new Space(gravity);
 
         marbleType = new CbType();
         springType = new CbType();
+        acceleratorType = new CbType();
 
-        collisions = new InteractionListener(CbEvent.BEGIN, InteractionType.ANY, marbleType, springType, function(callback) {
+        var collisions = new InteractionListener(CbEvent.BEGIN, InteractionType.ANY, marbleType, springType, function(callback) {
             var springForce = 500;
             if (callback.int2.castShape.userData.direction == SpringDirection.Up) {
                 callback.int1.castBody.velocity.y = -springForce;
@@ -34,6 +35,20 @@ class Simulation {
                 callback.int1.castBody.velocity.x = springForce;
             }else if (callback.int2.castShape.userData.direction == SpringDirection.Left) {
                 callback.int1.castBody.velocity.x = -springForce;
+            }
+        }, 0);
+        space.listeners.add(collisions);
+
+        var collisions = new InteractionListener(CbEvent.ONGOING, InteractionType.ANY, marbleType, acceleratorType, function(callback) {
+            var acceleratorForce = 20;
+            if (callback.int2.castShape.userData.direction == SpringDirection.Up) {
+                callback.int1.castBody.velocity.y += -acceleratorForce;
+            }else if (callback.int2.castShape.userData.direction == SpringDirection.Down) {
+                callback.int1.castBody.velocity.y += acceleratorForce;
+            }else if (callback.int2.castShape.userData.direction == SpringDirection.Right) {
+                callback.int1.castBody.velocity.x += acceleratorForce;
+            }else if (callback.int2.castShape.userData.direction == SpringDirection.Left) {
+                callback.int1.castBody.velocity.x += -acceleratorForce;
             }
         }, 0);
         space.listeners.add(collisions);
@@ -60,6 +75,7 @@ class Simulation {
                 entities.push(square);
             }
             case Spring(rotation): entities.push(new tile.Spring(x,y,space,rotation,springType));
+            case Accelerator(rotation): entities.push(new tile.Accelerator(x,y,space,rotation,acceleratorType));
             case Slope(rotation): entities.push(new tile.Slope(x,y,space,rotation));
             case InnerSlope(rotation): entities.push(new tile.InnerSlope(x,y,space,rotation));
             case OuterSlope(rotation): entities.push(new tile.OuterSlope(x,y,space,rotation));
