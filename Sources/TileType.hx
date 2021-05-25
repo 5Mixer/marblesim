@@ -1,4 +1,5 @@
 enum TileType {
+    Marble;
     Empty;
     Square;
     Slope(rotation:TileRotation);

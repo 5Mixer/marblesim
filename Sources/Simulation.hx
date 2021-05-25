@@ -1,7 +1,6 @@
 package ;
 
 import nape.callbacks.InteractionListener;
-import nape.callbacks.InteractionListener;
 import nape.callbacks.InteractionType;
 import nape.callbacks.CbEvent;
 import nape.callbacks.CbType;
@@ -12,7 +11,7 @@ import kha.graphics2.Graphics;
 class Simulation {
     var space:Space;
     var entities:Array<Entity> = [];
-    var marble:Marble;
+    var marbleStarts:Array<tile.MarbleStart> = [];
 
     public var marbleType:CbType;
     public var springType:CbType;
@@ -44,10 +43,17 @@ class Simulation {
         for (entity in entities) {
             if (entity.x == x && entity.y == y) {
                 entity.remove();
+                if (entity is tile.MarbleStart)
+                    marbleStarts.remove(cast entity);
                 entities.remove(entity);
             }
         }
         switch tile {
+            case Marble: {
+                var marbleStart = new tile.MarbleStart(x,y);
+                marbleStarts.push(marbleStart);
+                entities.push(marbleStart);
+            }
             case Empty: {};
             case Square: {
                 var square = new tile.Square(x,y,space);
@@ -60,15 +66,22 @@ class Simulation {
     }
     public function start() {
         stop();
-        marble = new Marble(10, 100, 30, space);
-        marble.body.cbTypes.add(marbleType);
-        entities.push(marble);
+        for (marble in marbleStarts) {
+            var marble = new Marble(10, marble.x*20+10, marble.y*20+10, space);
+            marble.body.cbTypes.add(marbleType);
+
+            entities.push(marble);
+        }
     }
     public function stop() {
-        if (marble != null)
-            marble.remove();
-        entities.remove(marble);
-        marble = null;
+        for (entity in entities)
+            if (entity is Marble)
+                entity.remove();
+        entities = entities.filter((e) -> !(e is Marble));
+
+        for (marble in marbleStarts) {
+            entities.push(marble);
+        }
     }
 
     public function update() {

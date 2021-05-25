@@ -1,5 +1,6 @@
 package ;
 
+import kha.Assets;
 import kha.graphics2.Graphics;
 import nape.phys.Body;
 import nape.phys.BodyType;
@@ -22,7 +23,7 @@ class Marble extends Entity {
         super();
     }
     override public function render(g:Graphics) {
-        g.fillCircle(body.position.x, body.position.y, radius);
+        g.drawScaledImage(Assets.images.marble,body.position.x-10,body.position.y-10,20,20);
     }
     override public function remove() {
         body.space = null;

@@ -21,6 +21,7 @@ class Toolbox {
         var squareSprite = new Sprite(kha.Assets.images.tiles, new Vector2i(50,0),  new Vector2i(50, 50));
         var slopeSprite  = new Sprite(kha.Assets.images.tiles, new Vector2i(100,0), new Vector2i(50, 50));
         var springSprite = new Sprite(kha.Assets.images.spring, new Vector2i(0,0),  new Vector2i(20, 20));
+        var marbleSprite = new Sprite(kha.Assets.images.marble_start, new Vector2i(0,0),  new Vector2i(20, 20));
 
         toolButtons.push(new Button(10+30*0, 10, emptySprite,  tileButtonCallback(TileType.Empty)));
         toolButtons.push(new Button(10+30*1, 10, squareSprite, tileButtonCallback(TileType.Square)));
@@ -34,6 +35,7 @@ class Toolbox {
         toolButtons.push(new Button(10+30*7, 10, springSprite.rotated(Math.PI*1/2), tileButtonCallback(Spring(Down))));
         toolButtons.push(new Button(10+30*8, 10, springSprite.rotated(Math.PI*2/2), tileButtonCallback(Spring(Left))));
         toolButtons.push(new Button(10+30*9, 10, springSprite.rotated(Math.PI*3/2), tileButtonCallback(Spring(Up))));
+        toolButtons.push(new Button(10+30*10, 10, marbleSprite, tileButtonCallback(Marble)));
     }
     function tileButtonCallback(tileType:TileType) {
         return function() {
