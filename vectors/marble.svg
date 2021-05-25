@@ -8,14 +8,14 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="30mm"
-   height="30mm"
-   viewBox="0 0 30 30"
+   width="50"
+   height="50"
+   viewBox="0 0 13.229166 13.229166"
    version="1.1"
    id="svg8"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
    sodipodi:docname="marble.svg"
-   inkscape:export-filename="/home/mixer/projects/marblerun/Assets/marble.png"
+   inkscape:export-filename="/home/mixer/projects/marble-run-editor/Assets/marble.png"
    inkscape:export-xdpi="25.4"
    inkscape:export-ydpi="25.4">
   <defs
@@ -52,7 +52,7 @@
        xlink:href="#linearGradient839"
        id="radialGradient1614"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.95889004,0,0,0.95889004,0.96820492,3.0289659)"
+       gradientTransform="matrix(0.33827511,0,0,0.33827511,27.025777,55.812111)"
        cx="52.209766"
        cy="94.143524"
        fx="52.209766"
@@ -67,8 +67,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6843774"
-     inkscape:cx="73.372847"
-     inkscape:cy="78.340095"
+     inkscape:cx="38.334987"
+     inkscape:cy="41.241184"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -77,11 +77,12 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="2347"
-     inkscape:window-height="1396"
-     inkscape:window-x="1920"
-     inkscape:window-y="44"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1920"
+     inkscape:window-height="1038"
+     inkscape:window-x="0"
+     inkscape:window-y="42"
+     inkscape:window-maximized="1"
+     units="px" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -102,11 +103,11 @@
     <circle
        style="opacity:1;fill:url(#radialGradient1614);fill-opacity:1;stroke-width:1.87935;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill"
        id="path833"
-       cx="54.184837"
-       cy="97.538338"
-       r="15"
+       cx="45.799419"
+       cy="89.152924"
        inkscape:export-filename="/home/mixer/projects/marblerun/Assets/path833.png"
        inkscape:export-xdpi="25.4"
-       inkscape:export-ydpi="25.4" />
+       inkscape:export-ydpi="25.4"
+       r="5.2916665" />
   </g>
 </svg>

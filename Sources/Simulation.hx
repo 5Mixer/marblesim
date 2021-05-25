@@ -61,13 +61,14 @@ class Simulation {
             }
             case Spring(rotation): entities.push(new tile.Spring(x,y,space,rotation,springType));
             case Slope(rotation): entities.push(new tile.Slope(x,y,space,rotation));
+            case InnerSlope(rotation): entities.push(new tile.InnerSlope(x,y,space,rotation));
         }
 
     }
     public function start() {
         stop();
         for (marble in marbleStarts) {
-            var marble = new Marble(10, marble.x*20+10, marble.y*20+10, space);
+            var marble = new Marble(marble.x*20+10, marble.y*20+10, space);
             marble.body.cbTypes.add(marbleType);
 
             entities.push(marble);
