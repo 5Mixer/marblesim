@@ -17,63 +17,28 @@ class Toolbox {
         
         slice = new NineSlice(20, kha.Assets.images.nineSlice);
 
-        var emptySprite = new Sprite(kha.Assets.images.empty, new Vector2i(0,0), new Vector2i(20, 20), 3 * Math.PI / 2);
-        var slopeButton3 = new Button(10, 10, emptySprite, function() {
-            model.setTile(TileType.Empty);
-        });
-        toolButtons.push(slopeButton3);
+        var emptySprite  = new Sprite(kha.Assets.images.tiles, new Vector2i(0,0),   new Vector2i(50, 50));
+        var squareSprite = new Sprite(kha.Assets.images.tiles, new Vector2i(50,0),  new Vector2i(50, 50));
+        var slopeSprite  = new Sprite(kha.Assets.images.tiles, new Vector2i(100,0), new Vector2i(50, 50));
+        var springSprite = new Sprite(kha.Assets.images.spring, new Vector2i(0,0),  new Vector2i(20, 20));
 
-        var tileSprite = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20));
-        var tileButton = new Button(10+30*1, 10, tileSprite, function() {
-            model.setTile(TileType.Square);
-        });
-        toolButtons.push(tileButton);
+        toolButtons.push(new Button(10+30*0, 10, emptySprite,  tileButtonCallback(TileType.Empty)));
+        toolButtons.push(new Button(10+30*1, 10, squareSprite, tileButtonCallback(TileType.Square)));
 
-        var slopeSprite = new Sprite(kha.Assets.images.slope, new Vector2i(0,0), new Vector2i(20, 20));
-        var slopeButton = new Button(10+30*2, 10, slopeSprite, function() {
-            model.setTile(TileType.Slope(UpRight));
-        });
-        toolButtons.push(slopeButton);
+        toolButtons.push(new Button(10+30*2, 10, slopeSprite.rotated(Math.PI*0/2), tileButtonCallback(Slope(UpRight))));
+        toolButtons.push(new Button(10+30*3, 10, slopeSprite.rotated(Math.PI*1/2), tileButtonCallback(Slope(DownRight))));
+        toolButtons.push(new Button(10+30*4, 10, slopeSprite.rotated(Math.PI*2/2), tileButtonCallback(Slope(DownLeft))));
+        toolButtons.push(new Button(10+30*5, 10, slopeSprite.rotated(Math.PI*3/2), tileButtonCallback(Slope(UpLeft))));
 
-        var slopeSprite1 = new Sprite(kha.Assets.images.slope, new Vector2i(0,0), new Vector2i(20, 20), Math.PI / 2);
-        var slopeButton1 = new Button(10+30*3, 10, slopeSprite1, function() {
-            model.setTile(TileType.Slope(DownRight));
-        });
-        toolButtons.push(slopeButton1);
-
-        var slopeSprite2 = new Sprite(kha.Assets.images.slope, new Vector2i(0,0), new Vector2i(20, 20), 2 * Math.PI / 2);
-        var slopeButton2 = new Button(10+30*4, 10, slopeSprite2, function() {
-            model.setTile(TileType.Slope(DownLeft));
-        });
-        toolButtons.push(slopeButton2);
-
-        var slopeSprite3 = new Sprite(kha.Assets.images.slope, new Vector2i(0,0), new Vector2i(20, 20), 3 * Math.PI / 2);
-        var slopeButton3 = new Button(10+30*5, 10, slopeSprite3, function() {
-            model.setTile(TileType.Slope(UpLeft));
-        });
-        toolButtons.push(slopeButton3);
-
-
-        var springSprite = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20));
-        var springButton = new Button(10+30*6, 10, springSprite, function() {
-            model.setTile(TileType.Spring(Right));
-        });
-        toolButtons.push(springButton);
-        var springSprite2 = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20), Math.PI/2);
-        var springButton2 = new Button(10+30*7, 10, springSprite2, function() {
-            model.setTile(TileType.Spring(Down));
-        });
-        toolButtons.push(springButton2);
-        var springSprite3 = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20), 2*Math.PI/2);
-        var springButton3 = new Button(10+30*8, 10, springSprite3, function() {
-            model.setTile(TileType.Spring(Left));
-        });
-        toolButtons.push(springButton3);
-        var springSprite4 = new Sprite(kha.Assets.images.tile, new Vector2i(0,0), new Vector2i(20, 20), 3*Math.PI/2);
-        var springButton4 = new Button(10+30*9, 10, springSprite4, function() {
-            model.setTile(TileType.Spring(Up));
-        });
-        toolButtons.push(springButton4);
+        toolButtons.push(new Button(10+30*6, 10, springSprite.rotated(Math.PI*0/2), tileButtonCallback(Spring(Right))));
+        toolButtons.push(new Button(10+30*7, 10, springSprite.rotated(Math.PI*1/2), tileButtonCallback(Spring(Down))));
+        toolButtons.push(new Button(10+30*8, 10, springSprite.rotated(Math.PI*2/2), tileButtonCallback(Spring(Left))));
+        toolButtons.push(new Button(10+30*9, 10, springSprite.rotated(Math.PI*3/2), tileButtonCallback(Spring(Up))));
+    }
+    function tileButtonCallback(tileType:TileType) {
+        return function() {
+            model.setTile(tileType);
+        }
     }
     public function pointInside(x:Int,y:Int) {
         return x > position.x && y > position.y && x < position.x + size.x && y < position.y + size.y;

@@ -17,6 +17,9 @@ class Main {
 	function new() {
 		System.start({title: "Marble Run", width: 800, height: 600}, function (_) {
 			Assets.loadEverything(function () {
+				for (name in Assets.images.names) {
+					Assets.images.get(name).generateMipmaps(1);
+				}
 				init();
 				Scheduler.addTimeTask(function () { update(); }, 0, 1 / 60);
 				System.notifyOnFrames(function (framebuffers) { render(framebuffers[0]); });
@@ -63,8 +66,9 @@ class Main {
 	}
 
 	function render(framebuffer: Framebuffer) {
-
 		var g = framebuffer.g2;
+		g.mipmapScaleQuality = Low;
+		g.imageScaleQuality = Low;
 		g.begin(true,kha.Color.fromValue(0xead2a1));
 		simulation.render(g);
 		toolbox.render(g);

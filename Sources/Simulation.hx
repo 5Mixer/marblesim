@@ -26,14 +26,15 @@ class Simulation {
         springType = new CbType();
 
         collisions = new InteractionListener(CbEvent.BEGIN, InteractionType.ANY, marbleType, springType, function(callback) {
+            var springForce = 500;
             if (callback.int2.castShape.userData.direction == SpringDirection.Up) {
-                callback.int1.castBody.velocity.y = -400;
+                callback.int1.castBody.velocity.y = -springForce;
             }else if (callback.int2.castShape.userData.direction == SpringDirection.Down) {
-                callback.int1.castBody.velocity.y = 400;
+                callback.int1.castBody.velocity.y = springForce;
             }else if (callback.int2.castShape.userData.direction == SpringDirection.Right) {
-                callback.int1.castBody.velocity.x = 400;
+                callback.int1.castBody.velocity.x = springForce;
             }else if (callback.int2.castShape.userData.direction == SpringDirection.Left) {
-                callback.int1.castBody.velocity.x = -400;
+                callback.int1.castBody.velocity.x = -springForce;
             }
         }, 0);
         space.listeners.add(collisions);
