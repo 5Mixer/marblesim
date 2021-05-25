@@ -33,7 +33,7 @@ class Slope extends Entity {
         super();
     }
     override public function render(g:Graphics) {
-        g.pushTransformation(FastMatrix3.translation(x*20 + 10, y*20 + 10).multmat(FastMatrix3.rotation(rotation)).multmat(FastMatrix3.translation(-x*20 - 10, -y*20 - 10)));
+        g.pushTransformation(g.transformation.multmat(FastMatrix3.translation(x*20 + 10, y*20 + 10)).multmat(FastMatrix3.rotation(rotation)).multmat(FastMatrix3.translation(-x*20 - 10, -y*20 - 10)));
         g.drawScaledImage(kha.Assets.images.slope, x*20, y*20, 20, 20);
         g.popTransformation();
     }

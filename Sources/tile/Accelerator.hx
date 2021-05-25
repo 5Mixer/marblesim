@@ -13,7 +13,7 @@ class Accelerator extends Entity {
     public function new(x:Int, y:Int, space:Space, rotation:SpringDirection, acceleratorCallbackType) {
         body = new Body(BodyType.STATIC);
 
-        var sensor = new nape.shape.Polygon(Polygon.rect(-10, -10, 20, 20));
+        var sensor = new nape.shape.Polygon(Polygon.rect(-8, -8, 16, 16));
         sensor.sensorEnabled = true;
         sensor.cbTypes.add(acceleratorCallbackType);
         sensor.userData.direction = rotation;
@@ -30,7 +30,7 @@ class Accelerator extends Entity {
         super();
     }
     override public function render(g:Graphics) {
-        g.pushTransformation(FastMatrix3.translation(x*20 + 10, y*20 + 10).multmat(FastMatrix3.rotation(rotation)).multmat(FastMatrix3.translation(-x*20 - 10, -y*20 - 10)));
+        g.pushTransformation(g.transformation.multmat(FastMatrix3.translation(x*20 + 10, y*20 + 10)).multmat(FastMatrix3.rotation(rotation)).multmat(FastMatrix3.translation(-x*20 - 10, -y*20 - 10)));
         g.drawScaledImage(kha.Assets.images.accelerator, x*20, y*20, 20, 20);
         g.popTransformation();
     }
