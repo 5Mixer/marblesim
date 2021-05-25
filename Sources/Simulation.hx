@@ -62,6 +62,7 @@ class Simulation {
             case Spring(rotation): entities.push(new tile.Spring(x,y,space,rotation,springType));
             case Slope(rotation): entities.push(new tile.Slope(x,y,space,rotation));
             case InnerSlope(rotation): entities.push(new tile.InnerSlope(x,y,space,rotation));
+            case OuterSlope(rotation): entities.push(new tile.OuterSlope(x,y,space,rotation));
         }
 
     }
