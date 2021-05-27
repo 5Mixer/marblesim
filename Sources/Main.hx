@@ -93,6 +93,12 @@ class Main {
 
 		camera.transform(g);
 		simulation.render(g);
+		if (!toolbox.pointInside(Math.floor(input.mousePosition.x),Math.floor(input.mousePosition.y))) {
+			g.color = kha.Color.fromValue(0x22000000);
+			var worldPos = camera.screenToWorld(input.mousePosition);
+			g.fillRect(Math.floor(worldPos.x/20)*20, Math.floor(worldPos.y/20)*20, 20, 20);
+			g.color = kha.Color.White;
+		}
 		camera.endTransform(g);
 		toolbox.render(g);
 		g.end();

@@ -7,18 +7,18 @@ class Button {
     public var y:Int;
     public var width:Int;
     public var height:Int;
+    public var label:String;
     var sprite:Sprite;
     public var callback:()->Void;
 
-    public function new(x, y, sprite, callback) {
-        this.x = x;
-        this.y = y;
+    public function new(label, sprite, callback) {
+        this.label = label;
         this.width = 20;
         this.height = 20;
         this.sprite = sprite;
         this.callback = callback;
     }
-    public function render(g:Graphics) {
+    public function render(g:Graphics, x, y) {
         sprite.render(g, x, y);
     }
     public function onClick() {
