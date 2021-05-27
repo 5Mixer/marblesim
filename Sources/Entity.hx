@@ -1,6 +1,5 @@
 package ;
 
-import kha.math.Vector2i;
 import kha.graphics2.Graphics;
 
 class Entity {
@@ -11,4 +10,5 @@ class Entity {
     public function update() {}
     public function render(g:Graphics) {}
     public function remove() {}
+    public function serialise() {}
 }

@@ -1,5 +1,6 @@
 package ;
 
+import kha.math.Vector2i;
 import nape.callbacks.InteractionListener;
 import nape.callbacks.InteractionType;
 import nape.callbacks.CbEvent;
@@ -7,6 +8,17 @@ import nape.callbacks.CbType;
 import nape.geom.Vec2;
 import nape.space.Space;
 import kha.graphics2.Graphics;
+
+class Tile {
+    public var x:Int;
+    public var y:Int;
+    public var tile:TileType;
+    public function new (x, y, tile) {
+        this.x = x;
+        this.y = y;
+        this.tile = tile;
+    }
+}
 
 class Simulation {
     var space:Space;
@@ -16,6 +28,8 @@ class Simulation {
     public var marbleType:CbType;
     public var springType:CbType;
     public var acceleratorType:CbType;
+
+    var tilemap:Array<Tile> = [];
  
     public function new() {
         var gravity = Vec2.weak(0, 600);
@@ -24,6 +38,14 @@ class Simulation {
         marbleType = new CbType();
         springType = new CbType();
         acceleratorType = new CbType();
+
+        kha.System.notifyOnCutCopyPaste(function() {
+            return serialise();
+        }, function() {
+            return serialise();
+        }, function(data) {
+            load(data);
+        });
 
         var collisions = new InteractionListener(CbEvent.BEGIN, InteractionType.ANY, marbleType, springType, function(callback) {
             var springForce = 500;
@@ -53,8 +75,102 @@ class Simulation {
         }, 0);
         space.listeners.add(collisions);
     }
+
+    public function serialise() {
+        var string = "1\n";
+        for (tile in tilemap) {
+            var id = switch tile.tile {
+                case Empty: 0;
+                case Marble: 1;
+                case Square: 2;
+                case Slope(rotation): switch rotation {
+                    case UpRight: 3;
+                    case DownRight: 4;
+                    case DownLeft: 5;
+                    case UpLeft: 6;
+                };
+                case InnerSlope(rotation): switch rotation {
+                    case UpRight: 7;
+                    case DownRight: 8;
+                    case DownLeft: 9;
+                    case UpLeft: 10;
+                };
+                case OuterSlope(rotation): switch rotation {
+                    case UpRight: 11;
+                    case DownRight: 12;
+                    case DownLeft: 13;
+                    case UpLeft: 14;
+                };
+                case Spring(rotation): switch rotation {
+                    case Right: 15;
+                    case Down: 16;
+                    case Left: 17;
+                    case Up: 18;
+                };
+                case Accelerator(rotation): switch rotation {
+                    case Right: 19;
+                    case Down: 20;
+                    case Left: 21;
+                    case Up: 21;
+                };
+            };
+            string += id + ',' + tile.x + ',' +tile.y + '\n';
+        }
+        return string;
+    }
+    public function load(string:String) {
+        var lines = string.split("\n");
+        var version = lines[0];
+        if (version == "1") {
+            for (line in lines) {
+                var entity = line.split(",");
+                var x = Std.parseInt(entity[1]);
+                var y = Std.parseInt(entity[2]);
+                var tile:TileType = switch Std.parseInt(entity[0]) {
+                    case 0: Empty;
+                    case 1: Marble;
+                    case 2: Square;
+                    case 3: Slope(UpRight);
+                    case 4: Slope(DownRight);
+                    case 5: Slope(DownLeft);
+                    case 6: Slope(UpLeft);
+                    case 7: InnerSlope(UpRight);
+                    case 8: InnerSlope(DownRight);
+                    case 9: InnerSlope(DownLeft);
+                    case 10: InnerSlope(UpLeft);
+                    case 11: OuterSlope(UpRight);
+                    case 12: OuterSlope(DownRight);
+                    case 13: OuterSlope(DownLeft);
+                    case 14: OuterSlope(UpLeft);
+                    case 15: Spring(Right);
+                    case 16: Spring(Down);
+                    case 17: Spring(Left);
+                    case 19: Spring(Right);
+                    case 20: Accelerator(Right);
+                    case 21: Accelerator(Down);
+                    case 22: Accelerator(Left);
+                    case 23: Accelerator(Right);
+                    default: Empty;
+                };
+                placeTile(x, y, tile);
+            }
+        }
+    }
  
     public function placeTile(x,y,tile:TileType) {
+        // O(n), fixup DS.
+        var replace = false;
+        for (tile in tilemap) {
+            if (tile.x == x && tile.y == y) {
+                tilemap.remove(tile);
+                break;
+            }
+        }
+
+        if (tile != TileType.Empty) {
+            tilemap.push(new Tile(x, y, tile));
+        }
+
         for (entity in entities) {
             if (entity.x == x && entity.y == y) {
                 entity.remove();
