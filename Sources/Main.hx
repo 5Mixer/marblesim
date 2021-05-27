@@ -82,6 +82,15 @@ class Main {
 		g.mipmapScaleQuality = Low;
 		g.imageScaleQuality = Low;
 		g.begin(true,kha.Color.fromValue(0xead2a1));
+		var xOffset = camera.position.x % 20;
+		var yOffset = camera.position.y % 20;
+		for (x in 0...Math.ceil(kha.Window.get(0).width/20)) {
+			g.fillRect(x*20+xOffset, 0, 1, kha.Window.get(0).height);
+		}
+		for (y in 0...Math.ceil(kha.Window.get(0).height/20)) {
+			g.fillRect(0, y*20+yOffset, kha.Window.get(0).width, 1);
+		}
+
 		camera.transform(g);
 		simulation.render(g);
 		camera.endTransform(g);
