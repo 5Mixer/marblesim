@@ -156,7 +156,15 @@ class Simulation {
         }
         return string;
     }
+    public function clear() {
+        for (entity in entities) {
+            entity.remove();
+        }
+        entities = [];
+        tilemap = [];
+    }
     public function load(string:String) {
+        clear();
         var lines = string.split("\n");
         var version = lines[0];
         if (version == "1") {
@@ -168,7 +176,7 @@ class Simulation {
  
     public function placeTile(x,y,tile:TileType,?send=true) {
         if (send) {
-            sendMessage("1,1,"+serialiseTile(new Tile(x, y, tile)));
+            sendMessage(serialiseTile(new Tile(x, y, tile)));
         }
 
         // O(n), fixup DS.

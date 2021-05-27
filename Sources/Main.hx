@@ -1,5 +1,6 @@
 package;
 
+import js.Browser;
 import hx.ws.WebSocket;
 import hx.ws.Types;
 import kha.input.KeyCode;
@@ -16,6 +17,9 @@ class Main {
 	var toolbox:Toolbox;
 	var input:Input;
 	var camera:Camera;
+
+	var world = "0";
+	var ws:WebSocket;
 
 	function new() {
 		System.start({title: "Marble Run", width: 800, height: 600}, function (_) {
@@ -62,9 +66,11 @@ class Main {
 			}
 		},null);
 
-		var ws = new WebSocket("ws://localhost:4050");
+		#if js world = Browser.location.hash.split(",")[0]; #end
+
+		ws = new WebSocket("ws://localhost:4050");
         ws.onopen = function() {
-            ws.send("1,1");
+            ws.send("0,"+world);
         };
 		ws.onmessage = function(message) {
 			switch (message) {
@@ -72,18 +78,31 @@ class Main {
                 case StrMessage(content): {
 					trace("Received " + content);
 					var components = content.split(",");
+					if (components[0] == "0") {
+						simulation.load(content.split("\n").slice(1).join("\n"));
+					}
 					if (components[0] == "1") {
+						var lines = content.split("\n");
 						simulation.loadTileData(components.slice(2));
 					}
 				};
 			};
 		};
 		simulation.sendMessage = function(data) {
-			ws.send(data);
+			ws.send("1,"+world+","+data);
 		}
 
 	}
 	function update() {
+		#if js
+		if (world != Browser.location.hash.split(",")[0]) {
+			trace("Hash changed");
+			simulation.clear();
+			world = Browser.location.hash.split(",")[0];
+			ws.send("0,"+world);
+		}
+		#end
+		
 		simulation.update();
 		if (input.downKeys.contains(KeyCode.Left) || input.downKeys.contains(KeyCode.A)) {
 			camera.moveLeft();

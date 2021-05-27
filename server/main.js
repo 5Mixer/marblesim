@@ -1,4 +1,11 @@
-var worlds = {}
+var fs = require('fs');
+
+var worlds = {};
+var savefile = 'save.json';
+
+if (fs.existsSync(savefile)) {
+    worlds = JSON.parse(fs.readFileSync(savefile));
+}
 
 function setTile(world, data) {
     var tile = data[0]
@@ -35,7 +42,16 @@ server.on('connection', function(socket) {
 
         var components = msg.split(',')
         var type = components[0]
-        if (type == 1) {
+        if (type == '0') { // 'hello
+            socket.world = components[1];
+            if (worlds[socket.world] != null) {
+                var worldMessage = "0,\n1\n"; // 'world' message, v1.
+                for (let tile of worlds[socket.world])
+                    worldMessage += tile.join(",")+"\n"
+                socket.send(worldMessage);
+            }
+        }
+        if (type == '1') {
             // 1, worldId, blockChange
             socket.world = components[1];
 
@@ -54,3 +70,29 @@ server.on('connection', function(socket) {
         sockets = sockets.filter(s => s !== socket);
     });
 });
+
+function saveSync() {
+    fs.writeFileSync(savefile, JSON.stringify(worlds));
+
+    console.log("Saved.");
+}
+
+function exitHandler(options, exitCode) {
+    saveSync();
+    if (options.cleanup) console.log('clean');
+    if (exitCode || exitCode === 0) console.log(exitCode);
+    if (options.exit) process.exit();
+}
+
+//do something when app is closing
+process.on('exit', exitHandler.bind(null,{cleanup:true}));
+
+//catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, {exit:true}));
+
+// catches "kill pid" (for example: nodemon restart)
+process.on('SIGUSR1', exitHandler.bind(null, {exit:true}));
+process.on('SIGUSR2', exitHandler.bind(null, {exit:true}));
+
+//catches uncaught exceptions
+process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
