@@ -2,3 +2,6 @@
 	path = Kha
 	url = https://github.com/Kode/Kha.git
 	branch = master
+[submodule "Libraries/hxWebSockets"]
+	path = Libraries/hxWebSockets
+	url = https://github.com/ianharrigan/hxWebSockets.git

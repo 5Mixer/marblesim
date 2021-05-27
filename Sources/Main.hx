@@ -1,9 +1,10 @@
 package;
 
+import hx.ws.WebSocket;
+import hx.ws.Types;
 import kha.input.KeyCode;
 import kha.input.Keyboard;
 import ui.Toolbox;
-import kha.input.Mouse;
 import kha.Assets;
 import kha.Framebuffer;
 import kha.Scheduler;
@@ -29,6 +30,7 @@ class Main {
 		});
 	}
 	function init() {
+
 		model = new Model();
 		input = new Input();
 		camera = new Camera();
@@ -59,6 +61,26 @@ class Main {
 				simulation.start();
 			}
 		},null);
+
+		var ws = new WebSocket("ws://localhost:4050");
+        ws.onopen = function() {
+            ws.send("1,1");
+        };
+		ws.onmessage = function(message) {
+			switch (message) {
+                case BytesMessage(content): {};
+                case StrMessage(content): {
+					trace("Received " + content);
+					var components = content.split(",");
+					if (components[0] == "1") {
+						simulation.loadTileData(components.slice(2));
+					}
+				};
+			};
+		};
+		simulation.sendMessage = function(data) {
+			ws.send(data);
+		}
 
 	}
 	function update() {

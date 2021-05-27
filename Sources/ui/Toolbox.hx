@@ -33,26 +33,31 @@ class Toolbox {
             new Button("Eraser", emptySprite,  tileButtonCallback(TileType.Empty)),
             new Button("Marble", marbleSprite, tileButtonCallback(Marble)),
             new Button("Square", squareSprite, tileButtonCallback(TileType.Square)),
+
             new Button("Slope", slopeSprite.rotated(Math.PI*0/2), tileButtonCallback(Slope(UpRight))),
             new Button("Slope", slopeSprite.rotated(Math.PI*3/2), tileButtonCallback(Slope(UpLeft))),
             new Button("Slope", slopeSprite.rotated(Math.PI*1/2), tileButtonCallback(Slope(DownRight))),
             new Button("Slope", slopeSprite.rotated(Math.PI*2/2), tileButtonCallback(Slope(DownLeft))),
-            new Button("Slope", innerSlopeSprite.rotated(Math.PI*0/2), tileButtonCallback(InnerSlope(UpRight))),
-            new Button("Slope", innerSlopeSprite.rotated(Math.PI*3/2), tileButtonCallback(InnerSlope(UpLeft))),
-            new Button("Slope", innerSlopeSprite.rotated(Math.PI*1/2), tileButtonCallback(InnerSlope(DownRight))),
-            new Button("Slope", innerSlopeSprite.rotated(Math.PI*2/2), tileButtonCallback(InnerSlope(DownLeft))),
-            new Button("Slope", outerSlopeSprite.rotated(Math.PI*0/2), tileButtonCallback(OuterSlope(UpRight))),
-            new Button("Slope", outerSlopeSprite.rotated(Math.PI*3/2), tileButtonCallback(OuterSlope(UpLeft))),
-            new Button("Slope", outerSlopeSprite.rotated(Math.PI*1/2), tileButtonCallback(OuterSlope(DownRight))),
-            new Button("Slope", outerSlopeSprite.rotated(Math.PI*2/2), tileButtonCallback(OuterSlope(DownLeft))),
+
+            new Button("Inner Slope", innerSlopeSprite.rotated(Math.PI*0/2), tileButtonCallback(InnerSlope(UpRight))),
+            new Button("Inner Slope", innerSlopeSprite.rotated(Math.PI*3/2), tileButtonCallback(InnerSlope(UpLeft))),
+            new Button("Inner Slope", innerSlopeSprite.rotated(Math.PI*1/2), tileButtonCallback(InnerSlope(DownRight))),
+            new Button("Inner Slope", innerSlopeSprite.rotated(Math.PI*2/2), tileButtonCallback(InnerSlope(DownLeft))),
+
+            new Button("Outer Slope", outerSlopeSprite.rotated(Math.PI*0/2), tileButtonCallback(OuterSlope(UpRight))),
+            new Button("Outer Slope", outerSlopeSprite.rotated(Math.PI*3/2), tileButtonCallback(OuterSlope(UpLeft))),
+            new Button("Outer Slope", outerSlopeSprite.rotated(Math.PI*1/2), tileButtonCallback(OuterSlope(DownRight))),
+            new Button("Outer Slope", outerSlopeSprite.rotated(Math.PI*2/2), tileButtonCallback(OuterSlope(DownLeft))),
+
             new Button("Spring", springSprite.rotated(Math.PI*0/2), tileButtonCallback(Spring(Right))),
-            new Button("Spring", springSprite.rotated(Math.PI*3/2), tileButtonCallback(Spring(Left))),
-            new Button("Spring", springSprite.rotated(Math.PI*1/2), tileButtonCallback(Spring(Up))),
-            new Button("Spring", springSprite.rotated(Math.PI*2/2), tileButtonCallback(Spring(Down))),
+            new Button("Spring", springSprite.rotated(Math.PI*2/2), tileButtonCallback(Spring(Left))),
+            new Button("Spring", springSprite.rotated(Math.PI*3/2), tileButtonCallback(Spring(Up))),
+            new Button("Spring", springSprite.rotated(Math.PI*1/2), tileButtonCallback(Spring(Down))),
+
             new Button("Accelerator", acceleratorSprite.rotated(Math.PI*0/2), tileButtonCallback(Accelerator(Right))),
-            new Button("Accelerator", acceleratorSprite.rotated(Math.PI*3/2), tileButtonCallback(Accelerator(Left))),
-            new Button("Accelerator", acceleratorSprite.rotated(Math.PI*1/2), tileButtonCallback(Accelerator(Up))),
-            new Button("Accelerator", acceleratorSprite.rotated(Math.PI*2/2), tileButtonCallback(Accelerator(Down)))
+            new Button("Accelerator", acceleratorSprite.rotated(Math.PI*2/2), tileButtonCallback(Accelerator(Left))),
+            new Button("Accelerator", acceleratorSprite.rotated(Math.PI*3/2), tileButtonCallback(Accelerator(Up))),
+            new Button("Accelerator", acceleratorSprite.rotated(Math.PI*1/2), tileButtonCallback(Accelerator(Down)))
         ];
     }
     function tileButtonCallback(tileType:TileType) {
