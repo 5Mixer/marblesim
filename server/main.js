@@ -38,7 +38,6 @@ server.on('connection', function(socket) {
     
     socket.on('message', function(msg) {
         // messageType,messageData
-        console.log(msg)
 
         var components = msg.split(',')
         var type = components[0]
@@ -62,7 +61,17 @@ server.on('connection', function(socket) {
                     s.send(msg)
                 }
             });
+        }
+        if (type == '2') {
+            // 2, worldId, cursor, wx, wy
+            socket.world = components[1];
 
+            var data = components.slice(2);
+            sockets.forEach(s => {
+                if (s.world == socket.world && s != socket) {
+                    s.send("2,"+data.join(","))
+                }
+            });
         }
     });
     

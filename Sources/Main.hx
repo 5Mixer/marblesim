@@ -1,5 +1,8 @@
 package;
 
+import js.html.Storage;
+import js.html.InputElement;
+import js.html.TextAreaElement;
 import js.Browser;
 import hx.ws.WebSocket;
 import hx.ws.Types;
@@ -21,8 +24,34 @@ class Main {
 	var world = "0";
 	var ws:WebSocket;
 
+	var cursorID = "";
+	var name = "";
+	var lastMouseSend = 0.;
+
+	var connected = false;
+
+	var cursors:Map<String,Cursor> = [];
+
 	function new() {
 		System.start({title: "Marble Run", width: 800, height: 600}, function (_) {
+			cursorID = getID();
+
+			#if js
+			var canvas = cast(js.Browser.document.getElementById('khanvas'), js.html.CanvasElement);
+			canvas.width = Math.floor(js.Browser.window.innerWidth - 30);
+			canvas.height = Math.floor(js.Browser.window.innerHeight - 80);
+			canvas.addEventListener('contextmenu', function(event){ event.preventDefault();}); 
+
+			if (js.Browser.getLocalStorage() != null) {
+				if (Browser.getLocalStorage().getItem('id') != null) {
+					cursorID = Browser.getLocalStorage().getItem('id');
+				}else{
+					Browser.getLocalStorage().setItem('id', cursorID);
+				}
+			}
+
+			#end
+
 			Assets.loadEverything(function () {
 				for (name in Assets.images.names) {
 					Assets.images.get(name).generateMipmaps(1);
@@ -52,6 +81,11 @@ class Main {
 					}
 				}
 			}
+			if (ws != null && kha.Scheduler.time() - lastMouseSend > .1) {
+				var worldPos = camera.screenToWorld(input.mousePosition);
+				ws.send("2,"+world+","+cursorID+","+worldPos.x+","+worldPos.y+","+name);
+				lastMouseSend = kha.Scheduler.time();
+			}
 		}
 
 		toolbox = new Toolbox();
@@ -66,13 +100,37 @@ class Main {
 			}
 		},null);
 
-		#if js world = Browser.location.hash.split(",")[0]; #end
+		reconnect();
+	}
+	function getID() {
+		var symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		var id = "";
+		for (i in 0...6) {
+			id += symbols.charAt(Math.floor(Math.random()*symbols.length));
+		}
+		return id;
+	}
+	function reconnect() {
+		trace("Reconnecting!");
 
-		ws = new WebSocket("ws://localhost:4050");
+		var server = "localhost";
+		var secure = false;
+		#if js
+			world = Browser.location.hash.split(",")[0];
+			server = Browser.location.hostname;
+			if (Browser.location.protocol == 'https:') {
+				secure = true;
+			}
+		#end
+
+		ws = new WebSocket((secure ? "wss" : "ws") + "://"+server+":"+(secure ? 443 : 80)+"/ws/");
         ws.onopen = function() {
             ws.send("0,"+world);
+			connected = true;
         };
 		ws.onmessage = function(message) {
+			connected = true;
+
 			switch (message) {
                 case BytesMessage(content): {};
                 case StrMessage(content): {
@@ -85,22 +143,47 @@ class Main {
 						var lines = content.split("\n");
 						simulation.loadTileData(components.slice(2));
 					}
+					if (components[0] == "2") {
+						if (!cursors.exists(components[1])) {
+							cursors.set(components[1], new Cursor());
+						}
+						cursors.get(components[1]).wx = Std.parseInt(components[2]);
+						cursors.get(components[1]).wy = Std.parseInt(components[3]);
+						if (components.length == 5) {
+							cursors.get(components[1]).name = (components[4]);
+						}
+					}
 				};
 			};
 		};
+		ws.onclose = function() {
+			trace("Lost connection!");
+			connected = false;
+			reconnect();
+		}
 		simulation.sendMessage = function(data) {
 			ws.send("1,"+world+","+data);
 		}
-
+		Scheduler.addTimeTask(function(){
+			if (connected) {
+				ws.send('ping');
+			}
+		},0,1);
 	}
+
 	function update() {
 		#if js
 		if (world != Browser.location.hash.split(",")[0]) {
 			trace("Hash changed");
+			cursors = [];
 			simulation.clear();
 			world = Browser.location.hash.split(",")[0];
 			ws.send("0,"+world);
 		}
+		name = cast(Browser.document.getElementById("username"),InputElement).value;
+		trace(name);
+		if (name == null)
+			name="";
 		#end
 		
 		simulation.update();
@@ -140,8 +223,20 @@ class Main {
 			g.fillRect(Math.floor(worldPos.x/20)*20, Math.floor(worldPos.y/20)*20, 20, 20);
 			g.color = kha.Color.White;
 		}
+		for (cursor in cursors.iterator()) {
+			cursor.render(g);
+		}
 		camera.endTransform(g);
 		toolbox.render(g);
+
+		if (!connected) {
+			g.font = kha.Assets.fonts.OpenSans_Regular;
+			g.fontSize = 70;
+			g.color = kha.Color.Red;
+			g.drawString("Not connected", 100, 100);
+			g.color = kha.Color.White;
+		}
+
 		g.end();
 	}
 

@@ -112,7 +112,7 @@ class Simulation {
                 case Right: 19;
                 case Down: 20;
                 case Left: 21;
-                case Up: 21;
+                case Up: 22;
             };
         };
         return id + ',' + tile.x + ',' +tile.y + '\n';
@@ -139,11 +139,11 @@ class Simulation {
             case 15: Spring(Right);
             case 16: Spring(Down);
             case 17: Spring(Left);
-            case 19: Spring(Right);
-            case 20: Accelerator(Right);
-            case 21: Accelerator(Down);
-            case 22: Accelerator(Left);
-            case 23: Accelerator(Right);
+            case 18: Spring(Right);
+            case 19: Accelerator(Right);
+            case 20: Accelerator(Down);
+            case 21: Accelerator(Left);
+            case 22: Accelerator(Up);
             default: Empty;
         };
         placeTile(x, y, tile, false);
