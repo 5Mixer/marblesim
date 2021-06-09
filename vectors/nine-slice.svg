@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="50mm"
-   height="50mm"
-   viewBox="0 0 50 50"
+   width="60"
+   height="60"
+   viewBox="0 0 15.875 15.875"
    version="1.1"
    id="svg923"
-   sodipodi:docname="slope.svg"
-   inkscape:export-filename="/home/mixer/projects/marblesim/Assets/slope.png"
-   inkscape:export-xdpi="25.4"
-   inkscape:export-ydpi="25.4"
+   sodipodi:docname="nine-slice.svg"
+   inkscape:export-filename="/home/mixer/projects/marblesim/Assets/nineSlice.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    inkscape:version="1.1 (c4e8f9ed74, 2021-05-24)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -26,19 +26,25 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.4106265"
-     inkscape:cx="91.771996"
-     inkscape:cy="119.77272"
-     inkscape:document-units="mm"
+     inkscape:zoom="13.642506"
+     inkscape:cx="43.173886"
+     inkscape:cy="34.561099"
+     inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="3440"
      inkscape:window-height="1396"
      inkscape:window-x="1920"
      inkscape:window-y="44"
      inkscape:window-maximized="1"
-     inkscape:pagecheckerboard="true" />
+     inkscape:pagecheckerboard="true"
+     units="px"
+     width="60px">
+    <inkscape:grid
+       type="xygrid"
+       id="grid903" />
+  </sodipodi:namedview>
   <metadata
      id="metadata920">
     <rdf:RDF>
@@ -54,10 +60,13 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <path
-       id="rect831"
-       style="fill:#ffffff;fill-opacity:1;stroke-width:0.264999;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill"
-       d="M 0.0905876,0.0577773 50.093803,50.060993 H 0.0905876 Z"
-       sodipodi:nodetypes="cccc" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:0.32702258;stroke:#1d1d1d;stroke-width:2.065;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:fill markers stroke"
+       id="rect927"
+       width="13.229167"
+       height="13.229167"
+       x="1.3229166"
+       y="1.3229166"
+       ry="0.5291667" />
   </g>
 </svg>

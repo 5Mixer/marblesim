@@ -14,7 +14,7 @@ class Cursor {
         g.drawImage(kha.Assets.images.cursor, wx, wy);
         g.font = kha.Assets.fonts.OpenSans_Regular;
         g.fontSize = 22;
-        g.color = kha.Color.fromValue(0xff333333);
+        g.color = kha.Color.fromValue(0xffeeeeee);
         g.drawString(name, wx, wy+30);
         g.color = kha.Color.White;
     }

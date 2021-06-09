@@ -1,7 +1,9 @@
 package;
 
+#if js
 import js.html.InputElement;
 import js.Browser;
+#end
 import hx.ws.WebSocket;
 import hx.ws.Types;
 import kha.input.KeyCode;
@@ -76,7 +78,7 @@ class Main {
 				if (!toolbox.pointInside(x,y)) {
 					if (model.activeTile != null) {
 						var worldPos = camera.screenToWorld(input.mousePosition);
-						simulation.placeTile(Math.floor(worldPos.x/20),Math.floor(worldPos.y/20),model.activeTile);
+						simulation.placeTile(Math.floor(worldPos.x/20),Math.floor(worldPos.y/20),model.activeTile, model.activeColour);
 					}
 				}
 			}
@@ -195,8 +197,9 @@ class Main {
 			world = Browser.location.hash.split(",")[0];
 			ws.send("0,"+world);
 		}
-		name = cast(Browser.document.getElementById("username"),InputElement).value;
-		trace(name);
+		if (Browser.document.getElementById("username") != null) {
+			name = cast(Browser.document.getElementById("username"),InputElement).value;
+		}
 		if (name == null)
 			name="";
 		#end
@@ -220,15 +223,18 @@ class Main {
 		var g = framebuffer.g2;
 		g.mipmapScaleQuality = Low;
 		g.imageScaleQuality = Low;
-		g.begin(true,kha.Color.fromValue(0xead2a1));
+		// g.begin(true,kha.Color.fromValue(0xead2a1));
+		g.begin(true,kha.Color.fromValue(0xff222222));
 		var xOffset = camera.position.x % 20;
 		var yOffset = camera.position.y % 20;
+		g.color = kha.Color.fromValue(0x44ffffff);
 		for (x in 0...Math.ceil(kha.Window.get(0).width/20)) {
 			g.fillRect(x*20+xOffset, 0, 1, kha.Window.get(0).height);
 		}
 		for (y in 0...Math.ceil(kha.Window.get(0).height/20)) {
 			g.fillRect(0, y*20+yOffset, kha.Window.get(0).width, 1);
 		}
+		g.color = kha.Color.White;
 
 		camera.transform(g);
 		simulation.render(g);

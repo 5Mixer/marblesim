@@ -120,6 +120,13 @@ class Simulation {
     public function loadTileData(components:Array<String>) {
         var x = Std.parseInt(components[1]);
         var y = Std.parseInt(components[2]);
+
+        var colourIndex = 0;
+
+        if (components.length == 4) {
+            colourIndex = Std.parseInt(components[3]);
+        }
+
         var tile:TileType = switch Std.parseInt(components[0]) {
             case 0: Empty;
             case 1: Marble;
@@ -139,14 +146,14 @@ class Simulation {
             case 15: Spring(Right);
             case 16: Spring(Down);
             case 17: Spring(Left);
-            case 18: Spring(Right);
+            case 18: Spring(Up);
             case 19: Accelerator(Right);
             case 20: Accelerator(Down);
             case 21: Accelerator(Left);
             case 22: Accelerator(Up);
             default: Empty;
         };
-        placeTile(x, y, tile, false);
+        placeTile(x, y, tile, colourIndex, false);
     }
 
     public function serialise() {
@@ -174,10 +181,12 @@ class Simulation {
         }
     }
  
-    public function placeTile(x,y,tile:TileType,?send=true) {
+    public function placeTile(x,y,tile:TileType,colourIndex:Int,?send=true) {
         if (send) {
             sendMessage(serialiseTile(new Tile(x, y, tile)));
         }
+
+        var colour = Colours.palette[colourIndex];
 
         // O(n), fixup DS.
         var replace = false;
@@ -192,6 +201,7 @@ class Simulation {
             tilemap.push(new Tile(x, y, tile));
         }
 
+        // Remove existing entities
         for (entity in entities) {
             if (entity.x == x && entity.y == y) {
                 entity.remove();
@@ -200,29 +210,30 @@ class Simulation {
                 entities.remove(entity);
             }
         }
+
         switch tile {
             case Marble: {
-                var marbleStart = new tile.MarbleStart(x,y);
+                var marbleStart = new tile.MarbleStart(x,y,colour);
                 marbleStarts.push(marbleStart);
                 entities.push(marbleStart);
             }
             case Empty: {};
             case Square: {
-                var square = new tile.Square(x,y,space);
+                var square = new tile.Square(x,y,space,colour);
                 entities.push(square);
             }
-            case Spring(rotation): entities.push(new tile.Spring(x,y,space,rotation,springType));
-            case Accelerator(rotation): entities.push(new tile.Accelerator(x,y,space,rotation,acceleratorType));
-            case Slope(rotation): entities.push(new tile.Slope(x,y,space,rotation));
-            case InnerSlope(rotation): entities.push(new tile.InnerSlope(x,y,space,rotation));
-            case OuterSlope(rotation): entities.push(new tile.OuterSlope(x,y,space,rotation));
+            case Spring(rotation): entities.push(new tile.Spring(x,y,space,rotation,colour, springType));
+            case Accelerator(rotation): entities.push(new tile.Accelerator(x,y,space,rotation, colour, acceleratorType));
+            case Slope(rotation): entities.push(new tile.Slope(x,y,space,rotation,colour));
+            case InnerSlope(rotation): entities.push(new tile.InnerSlope(x,y,space,rotation,colour));
+            case OuterSlope(rotation): entities.push(new tile.OuterSlope(x,y,space,rotation,colour));
         }
 
     }
     public function start() {
         stop();
         for (marble in marbleStarts) {
-            var marble = new Marble(marble.x*20+10, marble.y*20+10, space);
+            var marble = new Marble(marble.x*20+10, marble.y*20+10, marble.colour, space);
             marble.body.cbTypes.add(marbleType);
 
             entities.push(marble);

@@ -5,6 +5,7 @@ import kha.graphics2.Graphics;
 
 class Toolbox {
     var selectedButton:Button;
+    var selectedColourButton:Button;
     var position:Vector2i;
     var size:Vector2i;
     public var model:Model;
@@ -13,10 +14,11 @@ class Toolbox {
 
     var slice:NineSlice;
     var components:Array<Button>;
+    var colourButtons:Array<Button>;
 
     public function new() {
         position = new Vector2i(0, 0);
-        size = new Vector2i(900, 70);
+        size = new Vector2i(900, 150);
         
         slice = new NineSlice(20, kha.Assets.images.nineSlice);
 
@@ -59,10 +61,22 @@ class Toolbox {
             new Button("Accelerator", acceleratorSprite.rotated(Math.PI*3/2), tileButtonCallback(Accelerator(Up))),
             new Button("Accelerator", acceleratorSprite.rotated(Math.PI*1/2), tileButtonCallback(Accelerator(Down)))
         ];
+        
+        colourButtons = [];
+        var index = 0;
+        for (colour in Colours.palette) {
+            colourButtons.push(new Button("Colour "+(index+1), squareSprite.coloured(colour), colourButtonCallback(index)));
+            index++;
+        }
     }
     function tileButtonCallback(tileType:TileType) {
         return function() {
             model.setTile(tileType);
+        }
+    }
+    function colourButtonCallback(colour:Int) {
+        return function() {
+            model.setColour(colour);
         }
     }
     public function pointInside(x:Int,y:Int) {
@@ -75,6 +89,14 @@ class Toolbox {
                     if (x > component.x && y > component.y && x < component.x + component.width && y < component.y + component.height) {
                         component.onClick();
                         selectedButton = component;
+                    }
+                }
+            }
+            for (component in colourButtons) {
+                if (component is Button) {
+                    if (x > component.x && y > component.y && x < component.x + component.width && y < component.y + component.height) {
+                        component.onClick();
+                        selectedColourButton = component;
                     }
                 }
             }
@@ -101,9 +123,25 @@ class Toolbox {
         if (selectedButton != null) {
             g.font = kha.Assets.fonts.OpenSans_Regular;
             g.fontSize = 22;
-            g.color = kha.Color.fromValue(0xff333333);
+            g.color = kha.Color.fromValue(0xffeeeeee);
             g.drawString(selectedButton.label, selectedButton.x, selectedButton.y + 25);
             g.color = kha.Color.White;
+        }
+
+        var x = 0;
+        for (component in colourButtons) {
+            if (component is Button) {
+                component.x = 10+(x++)*30;
+                component.y = 70;
+
+                if (component == selectedColourButton) {
+                    g.color = kha.Color.Black;
+                    g.drawRect(component.x, component.y, 20, 20);
+                    g.color = kha.Color.White;
+                }
+
+                component.render(g, component.x, component.y);
+            }
         }
     }
 }

@@ -13,8 +13,12 @@ class InnerSlope extends Entity {
     var body:Body;
     var gridSize = 20;
     var rotation:Float;
-    public function new(x:Int, y:Int, space:Space, rotation:TileRotation) {
+    var colour:kha.Color;
+
+    public function new(x:Int, y:Int, space:Space, rotation:TileRotation, colour:kha.Color) {
         body = new Body(BodyType.STATIC);
+
+        this.colour = colour;
 
         for (i in 1...5) {
             var shape = new Vec2List();
@@ -36,7 +40,9 @@ class InnerSlope extends Entity {
     }
     override public function render(g:Graphics) {
         g.pushTransformation(g.transformation.multmat(FastMatrix3.translation(x*20 + 10, y*20 + 10)).multmat(FastMatrix3.rotation(rotation)).multmat(FastMatrix3.translation(-x*20 - 10, -y*20 - 10)));
+        g.color = colour;
         g.drawScaledSubImage(kha.Assets.images.tiles, 150, 0, 50, 50, x*20, y*20, 20, 20);
+        g.color = kha.Color.White;
         g.popTransformation();
     }
     override public function remove() {
