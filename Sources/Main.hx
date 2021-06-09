@@ -1,8 +1,6 @@
 package;
 
-import js.html.Storage;
 import js.html.InputElement;
-import js.html.TextAreaElement;
 import js.Browser;
 import hx.ws.WebSocket;
 import hx.ws.Types;
@@ -31,6 +29,7 @@ class Main {
 	var connected = false;
 
 	var cursors:Map<String,Cursor> = [];
+	var locked = false;
 
 	function new() {
 		System.start({title: "Marble Run", width: 800, height: 600}, function (_) {
@@ -115,15 +114,27 @@ class Main {
 
 		var server = "localhost";
 		var secure = false;
+		var locked = false;
+		var local = false;
 		#if js
 			world = Browser.location.hash.split(",")[0];
 			server = Browser.location.hostname;
 			if (Browser.location.protocol == 'https:') {
 				secure = true;
 			}
+			if (server == '' || server == 'localhost') {
+				server = 'localhost';
+				local = true;
+			}
 		#end
+		var port = 4050;
+		if (!local) {
+			port = secure ? 443 : 80;
+		}
 
-		ws = new WebSocket((secure ? "wss" : "ws") + "://"+server+":"+(secure ? 443 : 80)+"/ws/");
+		var wsUrl = (secure ? "wss" : "ws") + "://" + server + ":" + port + "/ws/";
+		trace("Connect to " + wsUrl);
+		ws = new WebSocket(wsUrl);
         ws.onopen = function() {
             ws.send("0,"+world);
 			connected = true;
@@ -153,6 +164,9 @@ class Main {
 							cursors.get(components[1]).name = (components[4]);
 						}
 					}
+					if (components[0].toLowerCase() == "locked") {
+						locked = true;
+					}
 				};
 			};
 		};
@@ -168,7 +182,7 @@ class Main {
 			if (connected) {
 				ws.send('ping');
 			}
-		},0,1);
+		},0,5);
 	}
 
 	function update() {
@@ -177,6 +191,7 @@ class Main {
 			trace("Hash changed");
 			cursors = [];
 			simulation.clear();
+			locked = false;
 			world = Browser.location.hash.split(",")[0];
 			ws.send("0,"+world);
 		}
@@ -224,7 +239,8 @@ class Main {
 			g.color = kha.Color.White;
 		}
 		for (cursor in cursors.iterator()) {
-			cursor.render(g);
+			if (cursor.id != cursorID)
+				cursor.render(g);
 		}
 		camera.endTransform(g);
 		toolbox.render(g);
