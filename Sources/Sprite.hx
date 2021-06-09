@@ -11,7 +11,7 @@ class Sprite {
     var sourceSize:Vector2i;
     var rotation:Float;
     var renderSize:Vector2i = new Vector2i(20, 20);
-    var colour:kha.Color;
+    public var colour:kha.Color;
 
     public function new(sourceImage, sourcePos, sourceSize, ?rotation=0., colour=kha.Color.White) {
         this.sourceImage = sourceImage;

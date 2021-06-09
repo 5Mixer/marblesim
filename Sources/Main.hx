@@ -64,7 +64,6 @@ class Main {
 		});
 	}
 	function init() {
-
 		model = new Model();
 		input = new Input();
 		camera = new Camera();
@@ -98,6 +97,9 @@ class Main {
 		Keyboard.get().notify(function(key){
 			if (key == Space) {
 				simulation.start();
+			}
+			if (key == Escape) {
+				simulation.stop();
 			}
 		},null);
 
@@ -135,7 +137,7 @@ class Main {
 		}
 
 		var wsUrl = (secure ? "wss" : "ws") + "://" + server + ":" + port + "/ws/";
-		trace("Connect to " + wsUrl);
+		trace("Connecting to " + wsUrl);
 		ws = new WebSocket(wsUrl);
         ws.onopen = function() {
             ws.send("0,"+world);
@@ -147,7 +149,6 @@ class Main {
 			switch (message) {
                 case BytesMessage(content): {};
                 case StrMessage(content): {
-					trace("Received " + content);
 					var components = content.split(",");
 					if (components[0] == "0") {
 						simulation.load(content.split("\n").slice(1).join("\n"));
@@ -224,7 +225,7 @@ class Main {
 		g.mipmapScaleQuality = Low;
 		g.imageScaleQuality = Low;
 		// g.begin(true,kha.Color.fromValue(0xead2a1));
-		g.begin(true,kha.Color.fromValue(0xff222222));
+		g.begin(true,kha.Color.fromValue(0xff333333));
 		var xOffset = camera.position.x % 20;
 		var yOffset = camera.position.y % 20;
 		g.color = kha.Color.fromValue(0x44ffffff);

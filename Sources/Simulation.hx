@@ -1,6 +1,5 @@
 package ;
 
-import kha.math.Vector2i;
 import nape.callbacks.InteractionListener;
 import nape.callbacks.InteractionType;
 import nape.callbacks.CbEvent;
@@ -188,8 +187,6 @@ class Simulation {
 
         var colour = Colours.palette[colourIndex];
 
-        // O(n), fixup DS.
-        var replace = false;
         for (tile in tilemap) {
             if (tile.x == x && tile.y == y) {
                 tilemap.remove(tile);
@@ -244,10 +241,6 @@ class Simulation {
             if (entity is Marble)
                 entity.remove();
         entities = entities.filter((e) -> !(e is Marble));
-
-        for (marble in marbleStarts) {
-            entities.push(marble);
-        }
     }
 
     public function update() {

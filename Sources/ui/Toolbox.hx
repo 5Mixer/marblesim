@@ -13,12 +13,12 @@ class Toolbox {
     var selectionIndex = 0;
 
     var slice:NineSlice;
-    var components:Array<Button>;
+    var buttons:Array<Button>;
     var colourButtons:Array<Button>;
 
     public function new() {
         position = new Vector2i(0, 0);
-        size = new Vector2i(900, 150);
+        size = new Vector2i(800, 120);
         
         slice = new NineSlice(20, kha.Assets.images.nineSlice);
 
@@ -31,7 +31,7 @@ class Toolbox {
         var marbleSprite = new Sprite(kha.Assets.images.marble_start, new Vector2i(0,0),  new Vector2i(20, 20));
         var acceleratorSprite = new Sprite(kha.Assets.images.accelerator, new Vector2i(0,0),  new Vector2i(20, 20));
 
-        components = [
+        buttons = [
             new Button("Eraser", emptySprite,  tileButtonCallback(TileType.Empty)),
             new Button("Marble", marbleSprite, tileButtonCallback(Marble)),
             new Button("Square", squareSprite, tileButtonCallback(TileType.Square)),
@@ -68,6 +68,8 @@ class Toolbox {
             colourButtons.push(new Button("Colour "+(index+1), squareSprite.coloured(colour), colourButtonCallback(index)));
             index++;
         }
+        selectedButton = buttons[2];
+        selectedColourButton = colourButtons[0];
     }
     function tileButtonCallback(tileType:TileType) {
         return function() {
@@ -84,7 +86,7 @@ class Toolbox {
     }
     public function onClick(x,y) {
         if (pointInside(x, y)) {
-            for (component in components) {
+            for (component in buttons) {
                 if (component is Button) {
                     if (x > component.x && y > component.y && x < component.x + component.width && y < component.y + component.height) {
                         component.onClick();
@@ -106,7 +108,7 @@ class Toolbox {
         slice.render(g,position.x, position.y, size.x, size.y);
 
         var x = 0;
-        for (component in components) {
+        for (component in buttons) {
             if (component is Button) {
                 component.x = 10+(x++)*30;
                 component.y = 10;
@@ -117,6 +119,9 @@ class Toolbox {
                     g.color = kha.Color.White;
                 }
 
+                if (component != buttons[0]) { // Don't change the eraser colour from white.
+                    component.sprite.colour = Colours.palette[model.activeColour];
+                }
                 component.render(g, component.x, component.y);
             }
         }

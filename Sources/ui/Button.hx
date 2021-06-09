@@ -8,7 +8,7 @@ class Button {
     public var width:Int;
     public var height:Int;
     public var label:String;
-    var sprite:Sprite;
+    public var sprite:Sprite;
     public var callback:()->Void;
 
     public function new(label, sprite, callback) {

@@ -1,8 +1,8 @@
 package ;
 
 class Model {
-    public var activeTile:TileType;
-    public var activeColour:Int;
+    public var activeTile:TileType = Square;
+    public var activeColour:Int = 0;
     public var simulation:Simulation;
 
     public function new() {
