@@ -1,2 +1,16 @@
-## Empty
-As the name suggests, this project is mostly empty but it is a convenient starting point for new Kha projects. The preferred way to manage Kha projects (the preferred way of Kha's author at least) is to manage all dependencies, including Kha itself, using git submodules. This project is setup to do just that but please keep in mind that it isn't updated very often and therefore usually just points to some random old revision of Kha. See the "Updating Kha" paragraph at https://github.com/Kode/Kha/wiki/Getting-Started for how to update the Kha submodule.
+## Marblesim
+A marble physics simulator built with Haxe, Kha, Nape, hxWebSockets and Node.
+
+Currently live at https://danielblaker.com/marblesim (25/6/21)
+
+To collaborate, add a # and a room name to the end of the URL. The default, hash-less room does not persist.
+
+ - Worked well for 40+ concurrent users on a $5/month VPS
+ - Cross-platform thanks to Kha: Runs natively with C++ or in the browser with JS
+ - Support for real-time collaboration, including visible collaborative cursors.
+ - A variety of tiles: accelerators, springs, slopes.
+ - Colour variations of marbles and tiles
+
+![image](https://user-images.githubusercontent.com/8501694/123429092-e0d46e00-d609-11eb-8e65-1dd91c37bfa4.png)
+![image](https://user-images.githubusercontent.com/8501694/123429410-47f22280-d60a-11eb-8d8e-be0bd289a083.png)
+(My `Video Games: Remaking Reality` class was wild!)
